@@ -3,17 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Zacode</title>
+  <title>除了一个小bug | Zacode</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Zacode">
-<meta property="og:url" content="http://zacwang.github.io/index.html">
+  <meta name="description" content="昨天发现的一个小bug，搞了一天才搞通。
+调用函数发生未期望的数组修改。原因是，传递的其他参数空间申请出了错。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="除了一个小bug">
+<meta property="og:url" content="http://zacwang.github.io/2016/03/08/除了一个小bug/index.html">
 <meta property="og:site_name" content="Zacode">
-<meta property="og:description">
+<meta property="og:description" content="昨天发现的一个小bug，搞了一天才搞通。
+调用函数发生未期望的数组修改。原因是，传递的其他参数空间申请出了错。">
+<meta property="og:updated_time" content="2016-03-08T08:32:48.666Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Zacode">
-<meta name="twitter:description">
+<meta name="twitter:title" content="除了一个小bug">
+<meta name="twitter:description" content="昨天发现的一个小bug，搞了一天才搞通。
+调用函数发生未期望的数组修改。原因是，传递的其他参数空间申请出了错。">
   
     <link rel="alternate" href="/atom.xml" title="Zacode" type="application/atom+xml">
   
@@ -62,9 +66,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-除了一个小bug" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-除了一个小bug" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/03/08/除了一个小bug/" class="article-date">
   <time datetime="2016-03-08T08:06:00.000Z" itemprop="datePublished">2016-03-08</time>
@@ -81,8 +83,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/08/除了一个小bug/">除了一个小bug</a>
+    <h1 class="article-title" itemprop="name">
+      除了一个小bug
     </h1>
   
 
@@ -92,11 +94,14 @@
       
         <p>昨天发现的一个小bug，搞了一天才搞通。</p>
 <p>调用函数发生未期望的数组修改。原因是，传递的其他参数空间申请出了错。</p>
-        
-          <p class="article-more-link">
-            <a href="/2016/03/08/除了一个小bug/#more">Read More</a>
-          </p>
-        
+<a id="more"></a>
+<p><strong>问题描述</strong><br>在用fortran写的程序中调用metis的接口，调用之后传递的数组值被改变了，这个事情在之前调用的时候并没有发生过。相关数组是 ia, perm, iperm。 ia的值本应保持不变，但在这次调用过程中发生了变化。</p>
+<p>由于metis本身并没有提供官方fortran接口，同时说实话他的manual写的太简略了……所以我一度认为是metis没有把这个接口写好。后来和老师讨论了好一会儿，还是决定把metis的接口单独拎出来写个demo看看会不会出这个问题。</p>
+<p>老师的本意是想让我自己重新写一个demo，我自作主张拿原来的程序中的代码拼了一个小demo，run的时候发现perm, iperm未定义。才想起来回去找perm，iperm的定义和分配空间的语句。</p>
+<p>结果找到之后发现perm, iperm分配的空间没有随着我的算例大小变化一起动态分配，即空间分配小了。因此在调用metis的接口时，metis对perm，iperm进行写操作过程中，会越界写入ia的空间中，最终的结果就导致了ia数组发生了变化。</p>
+<p>后来再看，确实觉得ia数组并不是在metis中被释放了，其被修改后的数据并不是随机值，而是很接近perm中的数据形式。</p>
+<p><strong>谈谈教训</strong><br>教训嘛，发现数组被改掉之后可以看看被改掉的数据是什么，如果像某一个别的数组，那很可能是被那个数组越界写操作给覆盖了，也许可以依据此回溯到究竟是哪出的问题。<br>哦对了，还有就是函数调用的时候，传递多个数组参数，有数组被意外写进去东西时，可能是其他数组分配空间不匹配造成的数组越界行为。</p>
+
       
     </div>
     <footer class="article-footer">
@@ -106,55 +111,19 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-开篇" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/03/06/开篇/" class="article-date">
-  <time datetime="2016-03-06T02:13:36.000Z" itemprop="datePublished">2016-03-06</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/杂谈/">杂谈</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/06/开篇/">开篇</a>
-    </h1>
+    <a href="/2016/03/06/开篇/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Предыдущий</strong>
+      <div class="article-nav-title">开篇</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>准备开始写博客。<br>
-        
-          <p class="article-more-link">
-            <a href="/2016/03/06/开篇/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://zacwang.github.io/2016/03/06/开篇/" data-id="cilj59iyk0001kciyyyfojm9l" class="article-share-link">Поделиться</a>
-      
-      
-    </footer>
-  </div>
   
 </article>
-
-
-  
 
 </section>
         
