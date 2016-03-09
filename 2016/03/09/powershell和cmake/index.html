@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>开篇 | Zacode</title>
+  <title>powershell和cmake | Zacode</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="准备开始写博客。">
+  <meta name="description" content="在powershell环境下安装cmake，并用cmake生成metis。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="开篇">
-<meta property="og:url" content="http://zacwang.github.io/2016/03/06/开篇/index.html">
+<meta property="og:title" content="powershell和cmake">
+<meta property="og:url" content="http://zacwang.github.io/2016/03/09/powershell和cmake/index.html">
 <meta property="og:site_name" content="Zacode">
-<meta property="og:description" content="准备开始写博客。">
-<meta property="og:updated_time" content="2016-03-06T02:52:52.823Z">
+<meta property="og:description" content="在powershell环境下安装cmake，并用cmake生成metis。">
+<meta property="og:updated_time" content="2016-03-09T10:47:58.991Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="开篇">
-<meta name="twitter:description" content="准备开始写博客。">
+<meta name="twitter:title" content="powershell和cmake">
+<meta name="twitter:description" content="在powershell环境下安装cmake，并用cmake生成metis。">
   
     <link rel="alternate" href="/atom.xml" title="Zacode" type="application/atom+xml">
   
@@ -63,14 +63,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-开篇" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-powershell和cmake" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/03/06/开篇/" class="article-date">
-  <time datetime="2016-03-06T02:13:36.000Z" itemprop="datePublished">2016-03-06</time>
+    <a href="/2016/03/09/powershell和cmake/" class="article-date">
+  <time datetime="2016-03-09T10:18:03.000Z" itemprop="datePublished">2016-03-09</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/杂谈/">杂谈</a>
+    <a class="article-category-link" href="/categories/windows/">windows</a>
   </div>
 
   </div>
@@ -81,7 +81,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      开篇
+      powershell和cmake
     </h1>
   
 
@@ -89,17 +89,36 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>准备开始写博客。<br><a id="more"></a><br>花了两三天的时间，终于搭建好了。其间接触到了Github Pages, Hexo, Markdown等一系列工具，查阅了好几篇教程文章，现在算是基本入门了。</p>
-<p>以后有时间就在这写写东西。</p>
-<p>最终基本上是按照这个教程的（四）来做的：<br><a href="http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/#more" title="GitHub Pages + Hexo搭建博客" target="_blank" rel="external">GitHub Pages + Hexo搭建博客</a><br>按照这个做可能会遇到一些问题，比如进行到4.2的7时，可能会报错，这是由于.git被5中的步骤删除了，重新git init之后就可以了。</p>
-<p>总之多多Google一下基本都有解决方案。</p>
-<p>对了，发现知乎现在发展的真是不错，也能找到很多有用的东西。</p>
-<p>今天就写这些吧。</p>
+        <p>在powershell环境下安装cmake，并用cmake生成metis。</p>
+<a id="more"></a>
+<p><strong>问题描述和絮絮叨叨</strong><br>今天遇到了个问题，老师提出来要把metis在windows下边编译为x64的。</p>
+<p>metis在最新版本5.1.0里边是提供windows版本的生成方式的。遗憾的是我之前安装cmake并在图形界面安装之后，调试了半天才只能搞定32位的编译环境。今天逼不得已了，回头去看了看metis的build文件，看到里边提供了两种方式，一种是cmake GUI，另一种是cmake command line。索性试一试第二种。</p>
+<p>首先试了一下，发现虽然之前装了cmake GUI，但是还要再重新装一下cmake command line才可以在命令行下使用。恰好看到powershell好像还挺好用，就在powershell环境下安装了一下cmake。安装过程其实有点恼人啊，因为不熟悉powershell嘛。</p>
+<p><strong>解决方案</strong></p>
+<ul>
+<li><p>在powershell中安装cmake：</p>
+<ul>
+<li>这个过程中需要使用<a href="https://chocolatey.org/" target="_blank" rel="external">chocolatey</a>来作为powershell的“apt-get”，安装方法就按照官网的来就好。要注意在powershell中，Get-ExecutionPolicy至少为Bypass才可以。</li>
+<li>之后安装<a href="https://chocolatey.org/packages/cmake" target="_blank" rel="external">chocolatey cmake</a>，安装完之后发现并没有自动更新PATH，所以又安装的cmake.portable。</li>
+</ul>
+</li>
+</ul>
+<p>OK，现在在powershell中敲一下cmake就发现可以用啦。</p>
+<ul>
+<li><p>使用cmake编译metis：</p>
+<ul>
+<li>其实这个事超简单，完成上边的事情之后，转到metis的目录下按照说明cmake了一下，DONE！</li>
+<li>不过有个事吧，就是visual studio 2015有个支持git进行源代码管理的功能，但是呢，cmake metis之后，sln、vcxproj这些项目文件都是在metis的子目录里边，这个时候想在VS中把代码添加到源代码管理就出问题了，因为貌似VS暂时只支持把sln文件所在的目录中包含的源代码添加到源码控制中。</li>
+<li>为此，特地改了一下metis的vsgen文件，重新制定让他把这些项目文件直接生成到metis的根目录下。这样虽然根目录稍微有点乱，但是至少有源代码控制之后，再写代码就很爽了。</li>
+</ul>
+</li>
+</ul>
+<p>今天就说这些吧。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zacwang.github.io/2016/03/06/开篇/" data-id="cilkpsanf0004k8iyl44q5fee" class="article-share-link">Share</a>
+      <a data-url="http://zacwang.github.io/2016/03/09/powershell和cmake/" data-id="cilkpsamw0000k8iymewcpdj5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -108,15 +127,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/03/08/除了一个小bug/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          除了一个小bug
-        
-      </div>
-    </a>
   
+    <a href="/2016/03/08/除了一个小bug/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">除了一个小bug</div>
+    </a>
   
 </nav>
 
