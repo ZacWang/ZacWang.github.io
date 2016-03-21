@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>powershell和cmake | Zacode</title>
+  <title>visual studio 2015 bug about git source control | Zacode</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在powershell环境下安装cmake，并用cmake生成metis。">
+  <meta name="description" content="visual studio 2015增加了对git以及github的支持，但是使用过程中有一个问题，在向解决方案中添加了一个c的lib项目后，git无法正常工作。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="powershell和cmake">
-<meta property="og:url" content="http://zacwang.github.io/2016/03/09/powershell和cmake/index.html">
+<meta property="og:title" content="visual studio 2015 bug about git source control">
+<meta property="og:url" content="http://zacwang.github.io/2016/03/16/visual-studio-2015-bug-about-git-source-control/index.html">
 <meta property="og:site_name" content="Zacode">
-<meta property="og:description" content="在powershell环境下安装cmake，并用cmake生成metis。">
-<meta property="og:updated_time" content="2016-03-09T10:47:58.991Z">
+<meta property="og:description" content="visual studio 2015增加了对git以及github的支持，但是使用过程中有一个问题，在向解决方案中添加了一个c的lib项目后，git无法正常工作。">
+<meta property="og:updated_time" content="2016-03-16T02:19:47.769Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="powershell和cmake">
-<meta name="twitter:description" content="在powershell环境下安装cmake，并用cmake生成metis。">
+<meta name="twitter:title" content="visual studio 2015 bug about git source control">
+<meta name="twitter:description" content="visual studio 2015增加了对git以及github的支持，但是使用过程中有一个问题，在向解决方案中添加了一个c的lib项目后，git无法正常工作。">
   
     <link rel="alternate" href="/atom.xml" title="Zacode" type="application/atom+xml">
   
@@ -63,14 +63,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-powershell和cmake" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-visual-studio-2015-bug-about-git-source-control" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/03/09/powershell和cmake/" class="article-date">
-  <time datetime="2016-03-09T10:18:03.000Z" itemprop="datePublished">2016-03-09</time>
+    <a href="/2016/03/16/visual-studio-2015-bug-about-git-source-control/" class="article-date">
+  <time datetime="2016-03-16T02:00:11.000Z" itemprop="datePublished">2016-03-16</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/windows/">windows</a>
+    <a class="article-category-link" href="/categories/visual-studio/">visual studio</a>
   </div>
 
   </div>
@@ -81,7 +81,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      powershell和cmake
+      visual studio 2015 bug about git source control
     </h1>
   
 
@@ -89,36 +89,28 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在powershell环境下安装cmake，并用cmake生成metis。</p>
+        <p>visual studio 2015增加了对git以及github的支持，但是使用过程中有一个问题，在向解决方案中添加了一个c的lib项目后，git无法正常工作。</p>
 <a id="more"></a>
-<p><strong>问题描述和絮絮叨叨</strong><br>今天遇到了个问题，老师提出来要把metis在windows下边编译为x64的。</p>
-<p>metis在最新版本5.1.0里边是提供windows版本的生成方式的。遗憾的是我之前安装cmake并在图形界面安装之后，调试了半天才只能搞定32位的编译环境。今天逼不得已了，回头去看了看metis的build文件，看到里边提供了两种方式，一种是cmake GUI，另一种是cmake command line。索性试一试第二种。</p>
-<p>首先试了一下，发现虽然之前装了cmake GUI，但是还要再重新装一下cmake command line才可以在命令行下使用。恰好看到powershell好像还挺好用，就在powershell环境下安装了一下cmake。安装过程其实有点恼人啊，因为不熟悉powershell嘛。</p>
-<p><strong>解决方案</strong></p>
-<ul>
-<li><p>在powershell中安装cmake：</p>
-<ul>
-<li>这个过程中需要使用<a href="https://chocolatey.org/" target="_blank" rel="external">chocolatey</a>来作为powershell的“apt-get”，安装方法就按照官网的来就好。要注意在powershell中，Get-ExecutionPolicy至少为Bypass才可以。</li>
-<li>之后安装<a href="https://chocolatey.org/packages/cmake" target="_blank" rel="external">chocolatey cmake</a>，安装完之后发现并没有自动更新PATH，所以又安装的cmake.portable。</li>
-</ul>
-</li>
-</ul>
-<p>OK，现在在powershell中敲一下cmake就发现可以用啦。</p>
-<ul>
-<li><p>使用cmake编译metis：</p>
-<ul>
-<li>其实这个事超简单，完成上边的事情之后，转到metis的目录下按照说明cmake了一下，DONE！</li>
-<li>不过有个事吧，就是visual studio 2015有个支持git进行源代码管理的功能，但是呢，cmake metis之后，sln、vcxproj这些项目文件都是在metis的子目录里边，这个时候想在VS中把代码添加到源代码管理就出问题了，因为貌似VS暂时只支持把sln文件所在的目录中包含的源代码添加到源码控制中。</li>
-<li>为此，特地改了一下metis的vsgen文件，重新制定让他把这些项目文件直接生成到metis的根目录下。这样虽然根目录稍微有点乱，但是至少有源代码控制之后，再写代码就很爽了。</li>
-</ul>
-</li>
-</ul>
-<p>今天就说这些吧。</p>
+<p>参考：<a href="http://stackoverflow.com/questions/34319008/git-issue-with-visual-studio-2015-update-1" target="_blank" rel="external">stack overflow 中Equalify的回答</a></p>
+<p>报错：</p>
+<blockquote>
+<font size="3">Could not open ‘<em>**</em>.VC.opendb’: The process cannot access the file because it is being used by another process.</font>
+
+
+</blockquote>
+<p>解决方案：<br>添加<em>*.VC.opendb</em>到<em>.gitignore</em>文件的<em>#User-specific files</em>条目下。</p>
+<pre><code># User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.VC.opendb
+</code></pre><p>本来想复现一下这个错误，结果发现删除掉<em>*.VC.opendb</em>之后，再打开解决方案，VS居然把<em>.gitignore</em>文件也加入了源代码管理里边去……<br>因为不是第一次遇到这个错误了，就写点东西记下来好了</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zacwang.github.io/2016/03/09/powershell和cmake/" data-id="cilu7na6o0001rwiyw1vkvkr2" class="article-share-link">Share</a>
+      <a data-url="http://zacwang.github.io/2016/03/16/visual-studio-2015-bug-about-git-source-control/" data-id="cilu7na6j0000rwiyphv5hqph" class="article-share-link">Share</a>
       
       
     </footer>
@@ -127,19 +119,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/03/16/visual-studio-2015-bug-about-git-source-control/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          visual studio 2015 bug about git source control
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/03/08/除了一个小bug/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2016/03/09/powershell和cmake/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">除了一个小bug</div>
+      <div class="article-nav-title">powershell和cmake</div>
     </a>
   
 </nav>
