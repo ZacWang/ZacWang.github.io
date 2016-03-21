@@ -3,17 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>归档: 2016/3 | Zacode</title>
+  <title>终于消灭了一个BUG | Zacode</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Zacode">
-<meta property="og:url" content="http://zacwang.github.io/archives/2016/03/index.html">
+  <meta name="description" content="耗费了两三天的时间的一个bug。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="终于消灭了一个BUG">
+<meta property="og:url" content="http://zacwang.github.io/2016/03/21/终于消灭了一个BUG/index.html">
 <meta property="og:site_name" content="Zacode">
-<meta property="og:description">
+<meta property="og:description" content="耗费了两三天的时间的一个bug。">
+<meta property="og:updated_time" content="2016-03-21T14:16:57.675Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Zacode">
-<meta name="twitter:description">
+<meta name="twitter:title" content="终于消灭了一个BUG">
+<meta name="twitter:description" content="耗费了两三天的时间的一个bug。">
   
     <link rel="alternate" href="/atom.xml" title="Zacode" type="application/atom+xml">
   
@@ -62,115 +63,65 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/03/21/终于消灭了一个BUG/" class="archive-article-date">
-  <time datetime="2016-03-21T13:52:31.000Z" itemprop="datePublished">3月 21</time>
+        <section id="main"><article id="post-终于消灭了一个BUG" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/21/终于消灭了一个BUG/" class="article-date">
+  <time datetime="2016-03-21T13:52:31.000Z" itemprop="datePublished">2016-03-21</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/openMP/">openMP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/21/终于消灭了一个BUG/">终于消灭了一个BUG</a>
+    <h1 class="article-title" itemprop="name">
+      终于消灭了一个BUG
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/03/16/visual-studio-2015-bug-about-git-source-control/" class="archive-article-date">
-  <time datetime="2016-03-16T02:00:11.000Z" itemprop="datePublished">3月 16</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/16/visual-studio-2015-bug-about-git-source-control/">visual studio 2015 bug about git source control</a>
-    </h1>
-  
+        <p>耗费了两三天的时间的一个bug。</p>
+<a id="more"></a>
+<p><strong>问题描述：</strong><br>一个任务分配的module配合openmp，实现并行化。任务按照树状划分，但是根节点的数据会有错误。发现是由于任务分配的逻辑有问题，造成了子节点与父节点有可能处于同时计算中的状态。</p>
+<p>任务分配的module是一两周之前就已经写好测试过的，如下：</p>
+<p><strong>结构：</strong><br>task(n)为所有可能的任务<br>task_flag(n)为task对应的一个flag数组，标定task的状态<br>pool(n)为任务池</p>
+<p>task中的任务在子节点都是完成的状态时被push到pool中。</p>
+<p>问题就出在了判定是否将父节点push到pool中的逻辑上。</p>
+<p><strong>错误的逻辑：</strong><br>task_flag有三个值:1,0,-1，分别表示当前任务未做，已做，不存在<br>而当一个任务被push到pool中后，对应的task_flag就被标记为0了。<br>在判断是否push父节点的时候，就会出现如下情况：两个子节点都被push到了pool中，因而两个子节点的flag都为0，即对应任务已做；当其中一个完成时，父节点即被push到pool中，而此时并不满足所有子节点都已经完成的条件。</p>
+<p><strong>修改后的逻辑：</strong><br>task_flag有四个值:1,0,-1,-9，分别表示当前任务未做，待做，已做，不存在<br>当一个任务被push到pool中后，对应的task_flag就被标记为0；当任务完成后，再标记为-1。<br>在对父节点进行判断时，只要看看子节点是不是都是-1即可。</p>
+<p><strong>反思一下：</strong><br>问题出在了对自己的盲目自信上。其实上述逻辑漏洞在当时写这个module的时候就考虑过，还自以为做足了测试，没想到还是漏掉了。测试的时候没有暴露出来是因为没有上数据，只是让分配任务这部分空转，才得出了看似合理的结果。<br>出了bug之后查了好多地方，最后才找到这里的问题。去查了openmp的atomic、critical等语句的用法，加上去也没啥用…折腾了两三天终于搞定了。所以说做模块测试的时候，还是要上数据跑一跑才能更有说服力。</p>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/03/09/powershell和cmake/" class="archive-article-date">
-  <time datetime="2016-03-09T10:18:03.000Z" itemprop="datePublished">3月 9</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/09/powershell和cmake/">powershell和cmake</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/03/08/除了一个小bug/" class="archive-article-date">
-  <time datetime="2016-03-08T08:06:00.000Z" itemprop="datePublished">3月 8</time>
-</a>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://zacwang.github.io/2016/03/21/终于消灭了一个BUG/" data-id="cim22utms0003jwiy60qf0zi4" class="article-share-link">Share</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/08/除了一个小bug/">除了一个小bug</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/03/06/开篇/" class="archive-article-date">
-  <time datetime="2016-03-06T02:13:36.000Z" itemprop="datePublished">3月 6</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/06/开篇/">开篇</a>
-    </h1>
-  
-
-    </header>
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/03/16/visual-studio-2015-bug-about-git-source-control/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">visual studio 2015 bug about git source control</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 </section>
         
