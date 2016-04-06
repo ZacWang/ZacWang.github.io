@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>开篇 | Zacode</title>
+  <title>两个关于中文的问题 | Zacode</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="准备开始写博客。">
+  <meta name="description" content="遇到的两个关于中文字体显示的问题：cmd命令行窗口和Sublime Text 3。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="开篇">
-<meta property="og:url" content="http://zacwang.github.io/2016/03/06/开篇/index.html">
+<meta property="og:title" content="两个关于中文的问题">
+<meta property="og:url" content="http://zacwang.github.io/2016/04/06/两个关于中文的问题/index.html">
 <meta property="og:site_name" content="Zacode">
-<meta property="og:description" content="准备开始写博客。">
-<meta property="og:updated_time" content="2016-03-06T02:52:52.823Z">
+<meta property="og:description" content="遇到的两个关于中文字体显示的问题：cmd命令行窗口和Sublime Text 3。">
+<meta property="og:updated_time" content="2016-04-06T08:51:02.229Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="开篇">
-<meta name="twitter:description" content="准备开始写博客。">
+<meta name="twitter:title" content="两个关于中文的问题">
+<meta name="twitter:description" content="遇到的两个关于中文字体显示的问题：cmd命令行窗口和Sublime Text 3。">
   
     <link rel="alternate" href="/atom.xml" title="Zacode" type="application/atom+xml">
   
@@ -63,14 +63,14 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-开篇" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-两个关于中文的问题" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/03/06/开篇/" class="article-date">
-  <time datetime="2016-03-06T02:13:36.000Z" itemprop="datePublished">2016-03-06</time>
+    <a href="/2016/04/06/两个关于中文的问题/" class="article-date">
+  <time datetime="2016-04-06T08:10:02.000Z" itemprop="datePublished">2016-04-06</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/杂谈/">杂谈</a>
+    <a class="article-category-link" href="/categories/debug/">debug</a>
   </div>
 
   </div>
@@ -81,7 +81,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      开篇
+      两个关于中文的问题
     </h1>
   
 
@@ -89,17 +89,24 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>准备开始写博客。<br><a id="more"></a><br>花了两三天的时间，终于搭建好了。其间接触到了Github Pages, Hexo, Markdown等一系列工具，查阅了好几篇教程文章，现在算是基本入门了。</p>
-<p>以后有时间就在这写写东西。</p>
-<p>最终基本上是按照这个教程的（四）来做的：<br><a href="http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/#more" title="GitHub Pages + Hexo搭建博客" target="_blank" rel="external">GitHub Pages + Hexo搭建博客</a><br>按照这个做可能会遇到一些问题，比如进行到4.2的7时，可能会报错，这是由于.git被5中的步骤删除了，重新git init之后就可以了。</p>
-<p>总之多多Google一下基本都有解决方案。</p>
-<p>对了，发现知乎现在发展的真是不错，也能找到很多有用的东西。</p>
-<p>今天就写这些吧。</p>
+        <p>遇到的两个关于中文字体显示的问题：cmd命令行窗口和Sublime Text 3。</p>
+<a id="more"></a>
+<p>在运行一个别人编译好的exe文件的时候，发现命令行窗口输出的信息中，中文部分都是乱码；用Sublime Text 3和Visual Studio Code打开输出的log文件，中文部分也都是乱码。</p>
+<p><strong>解决方案</strong>：</p>
+<ol>
+<li><p>Sublime Text<br>参考<a href="http://blog.sina.com.cn/s/blog_7191ed320101fmpp.html" target="_blank" rel="external">古龙小白的博客：sublime text 3中文乱码</a><br>按照<a href="https://packagecontrol.io/installation" target="_blank" rel="external">packagecontrol.io</a>的方法在 Sublime Text 中安装<code>package control</code>。重启 Sublime Text 即可。</p>
+</li>
+<li><p>cmd命令行窗口<br>参考<a href="http://www.6san.com/1075/" target="_blank" rel="external">cmd命令行显示中文乱码</a><br>在cmd窗口的标题栏右键，打开默认值窗口。将默认代码页选项选为 <em>936(ANSI/OEM - 简体中文 GBK)</em> 即可。</p>
+</li>
+<li><p>Visual Studio Code<br>尝试用Visual Studio Code打开输出的log文件的时候，也是乱码。但是调整一下编码即可。<br>在Visual Studio Code窗口的右下角，有当前文档的一些参数，包括缩进格式、编码格式、文档格式、光标位置等信息。我的默认打开的是<code>UTF-8</code>编码格式，鼠标放在<code>UTF-8</code>字样上，会显示<em>Select Encoding</em>浮窗提示。点击<code>UTF-8</code>字样，在上方中央会弹出窗口，选择<em>Reopen With Encoding</em>，之后选择<em>GBK</em>格式即可。</p>
+</li>
+</ol>
+<p>不得不感慨，中文不自动兼容真是蛋疼……</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://zacwang.github.io/2016/03/06/开篇/" data-id="cimokra8w000a9siy25ug08bi" class="article-share-link">Share</a>
+      <a data-url="http://zacwang.github.io/2016/04/06/两个关于中文的问题/" data-id="cimokra8d00009siyn7q2hcgs" class="article-share-link">Share</a>
       
       
     </footer>
@@ -108,15 +115,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/03/08/除了一个小bug/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          除了一个小bug
-        
-      </div>
-    </a>
   
+    <a href="/2016/03/21/终于消灭了一个BUG/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">终于消灭了一个BUG</div>
+    </a>
   
 </nav>
 
